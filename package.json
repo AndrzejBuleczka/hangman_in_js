@@ -1,6 +1,7 @@
 {
   "name": "hangman",
   "version": "1.0.0",
+  "type": "module",
   "description": "Hangman game made with JS",
   "main": "index.js",
   "scripts": {

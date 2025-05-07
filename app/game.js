@@ -1,4 +1,4 @@
-import Quote from "./quote.js";
+import { Quote } from "./quote.js";
 
 class Game {
   quotes = [
@@ -32,9 +32,8 @@ class Game {
   }
 
   guess(letter) {
-    console.log("Guessing letter:", letter);
-    // Here you would implement the logic to check if the guessed letter is in the word
-    // and update the game state accordingly.
+    this.quote.guess(letter);
+    this.drawQuote();
   }
 
   drawLetters() {
@@ -48,7 +47,21 @@ class Game {
       this.lettersWrapper.appendChild(button);
     }
   }
+
+  drawQuote() {
+    const content = this.quote.getContent();
+    this.wordWrapper.innerHTML = content;
+  }
   start() {
     this.drawLetters();
+    this.drawQuote();
   }
 }
+
+const game = new Game({
+  lettersWrapper: document.getElementById("letters"),
+  categoryWrapper: document.getElementById("category"),
+  wordWrapper: document.getElementById("word"),
+  outputWrapper: document.getElementById("output")
+});
+game.start();
