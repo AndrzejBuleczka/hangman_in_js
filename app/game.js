@@ -1,6 +1,8 @@
 import { Quote } from "./quote.js";
 
 class Game {
+  currentStep = 0;
+  lastStep = 7;
   quotes = [
     {
       text: "pan tadeusz",
@@ -33,8 +35,17 @@ class Game {
 
   guess(letter, event) {
     event.target.disabled = true;
-    this.quote.guess(letter);
-    this.drawQuote();
+    if (this.quote.guess(letter)) {
+      this.drawQuote();
+    } else {
+      this.currentStep++;
+      document.getElementsByClassName("step")[
+        this.currentStep
+      ].style.opacity = 1;
+      if (this.currentStep == this.lastStep) {
+        this.loosing();
+      }
+    }
   }
 
   drawLetters() {
@@ -52,10 +63,24 @@ class Game {
   drawQuote() {
     const content = this.quote.getContent();
     this.wordWrapper.innerHTML = content;
+    if (!content.includes("_")) {
+      this.winning();
+    }
   }
   start() {
     this.drawLetters();
     this.drawQuote();
+    document.getElementsByClassName("step")[this.currentStep].style.opacity = 1;
+  }
+
+  winning() {
+    this.wordWrapper.innerHTML = "GRATULACJE! WYGRYWASZ! KONIEC GRY";
+    this.lettersWrapper.innerHTML = "";
+  }
+
+  loosing() {
+    this.wordWrapper.innerHTML = "NIESTETY! PRZEGRYWASZ! TO KONIEC GRY";
+    this.lettersWrapper.innerHTML = "";
   }
 }
 
